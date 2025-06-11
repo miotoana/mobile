@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sa_petshop/controllers/pet_controller.dart';
 import 'package:sa_petshop/models/pet_model.dart';
 import 'package:sa_petshop/views/cadastro_pet_screen.dart';
+import 'package:sa_petshop/views/detalhe_pet_screen.dart';
 
 class HomeScreen  extends StatefulWidget{ // recebe as  notificações de mudança e chama o build da tela
   @override
@@ -53,14 +54,14 @@ class _HomeScreenState extends State<HomeScreen>{ // buildar a tela
         ? Center(child: CircularProgressIndicator(),)
         : Padding(padding: EdgeInsets.all(16),
         child: ListView.builder(
-          itemCount: _pets.length, //tamanho da lista
+          itemCount: _pets.length, 
           itemBuilder: (context,index){
-            final pet = _pets[index]; //criando um obj da classe pet a partir de um elemento do vetor
-            return ListTile( //item da ListView
+            final pet = _pets[index]; 
+            return ListTile( 
               title: Text("${pet.nome} - ${pet.raca}"),
               subtitle: Text("${pet.nomeDono} - ${pet.telefone}"),
-              //onTap: () => , //página de detalhe do PET
-              //onLongPress: ()=> , // deletar o Pet
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> DetalhePetScreen(petId: pet.id!))), //página de detalhe do PET
+              onLongPress: ()=> _deletarPet(pet.id!), 
             );
           }),),
       floatingActionButton: FloatingActionButton(
@@ -70,5 +71,19 @@ class _HomeScreenState extends State<HomeScreen>{ // buildar a tela
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  _deletarPet(int id) async{
+    try {
+      _controllerPet.deletePet(id);
+      _carregarDados();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Pet Deletado com Sucesso!!"))
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Exception: $e"))
+      );
+    }
   }
 }

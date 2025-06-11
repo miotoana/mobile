@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class consulta {
+class Consulta {
   // atributos -> id, pet id, datahora, tipo de serviço, observação
 
   final int? id;
@@ -11,7 +11,7 @@ class consulta {
 
   // construtor em formato rapido
 
-  consulta({
+  Consulta({
     this.id,
     required this.petid,
     required this.datahora,
@@ -32,8 +32,8 @@ class consulta {
 
 //fromMap() : BD -> obj
 
-  factory consulta.fromMap(Map<String,dynamic> map){
-    return consulta(
+  factory Consulta.fromMap(Map<String,dynamic> map){
+    return Consulta(
       id: map["id"] as int,
       petid: map["pet_id"] as int, 
       datahora: DateTime.parse(map["data_hora"] as String), 

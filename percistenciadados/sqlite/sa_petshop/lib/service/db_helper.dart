@@ -1,4 +1,5 @@
 import 'package:path/path.dart';
+import 'package:sa_petshop/models/consulta_model.dart';
 import 'package:sa_petshop/models/pet_model.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -110,8 +111,8 @@ class DbHelper {
 // CRUD = consultas
 
 Future<int> insertConsulta(Consulta consulta) async{
-    final db = database;
-    return await db.insert("consultas", consulta.toMap());
+    final db = await database;
+    return await db.insert("consultas", consulta.tomap());
   }
 
   // read - getconsultabypet
@@ -123,7 +124,7 @@ Future<int> insertConsulta(Consulta consulta) async{
       "consultas", where:"pet_id = ?", whereArgs: [petId]
     );
 
-    return maps.map((e) => consulta.fromMap(e)).toList();
+    return maps.map((e) => Consulta.fromMap(e)).toList();
   }
 
 // delete - delete
