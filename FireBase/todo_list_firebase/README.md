@@ -1,3 +1,28 @@
-# todo_list_firebase
+# estrutura do banco de dados do firebase
 
-A new Flutter project.
+## coleção vertical
+
+"usuarios":[
+    "uid":{
+        "tarefas":[
+            {
+                "id":"sss",
+                "titulo":"a",
+                "concluida": false
+                "datacriaacao":1234455
+            },
+            {
+                "id":"aaa",
+                "titulo":"b",
+                "concluida": false
+                "datacriaacao":123456
+            }
+        ],
+        "listacompras":[
+
+        ]
+    },
+    "uid2":{
+        
+    }
+]
