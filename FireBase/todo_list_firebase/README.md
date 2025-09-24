@@ -32,4 +32,6 @@ Construindo um aplicativo do Zero - O CineFavorite permitirá criar uma conta e 
 
 ## Prototipagem
 
+
+
 ## Codificação
