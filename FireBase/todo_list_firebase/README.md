@@ -1,28 +1,35 @@
-# estrutura do banco de dados do firebase
+# CineFavorite - Formativa
+Construindo um aplicativo do Zero - O CineFavorite permitirá criar uma conta e buscar filmes em uma api e montar uma galeria pessoal de filmes favoritos, com capas e notas.
 
-## coleção vertical
+## Objetivos
+- Integrar o Aplicativo a uam API
+- Criar uma conta pessoal no FireBase
+- Armazenar informações para Cada usuários das preferencias solicitadas
+- consultar informações de Filmes (Capas, Título)
 
-"usuarios":[
-    "uid":{
-        "tarefas":[
-            {
-                "id":"sss",
-                "titulo":"a",
-                "concluida": false
-                "datacriaacao":1234455
-            },
-            {
-                "id":"aaa",
-                "titulo":"b",
-                "concluida": false
-                "datacriaacao":123456
-            }
-        ],
-        "listacompras":[
+## Levantamentos de Requisitos
 
-        ]
-    },
-    "uid2":{
-        
-    }
-]
+- Funcionais
+
+- Não Funcionais
+
+## Diagramas
+
+1. ### Diagrama de Classe
+    Diagrama de que demonstra as entidades da aplicação
+
+    -usuário (user) : classe criada pelo firebase
+        -email
+        -senha
+        -id
+        -crate()
+        -login()
+        -logout()
+
+    - filme (movie) : classe modelada pelo dev
+        -
+
+
+## Prototipagem
+
+## Codificação
