@@ -26,16 +26,17 @@ Construindo um aplicativo do Zero - O CineFavorite permitirá criar uma conta e 
         - login()
         - logout()
 
-    - Filme (Movie) : Clase modelada pelo dev
+    - Filme (Movie) : Classe modelada pelo dev
         - number id:
-        - string titulo:
-        - string posterpath:
+        - String titulo:
+        - String PosterPath
         - boolean favorito
-        -double nota
-        -adicionar ()
-        -update()
-        -remover()
-        -listarfavoritos()
+        - double Nota
+        - adicionar()
+        - update()
+        - remover()
+        - listarFavoritos()
+
 ```mermaid
 
 classDiagram
@@ -60,8 +61,9 @@ classDiagram
         +read()
     } 
 
-    user "1"--"1+" movie : "selecionar"
+    User "1"--"1+" Movie : "selecionar"
 
+```
 
 ## Prototipagem
 
