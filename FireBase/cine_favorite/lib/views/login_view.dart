@@ -1,171 +1,81 @@
+import 'package:cine_favorite/views/register_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
- @override
- State<LoginScreen> createState() => _LoginScreenState();
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
- final TextEditingController emailController = TextEditingController();
- final TextEditingController passwordController = TextEditingController();
+class _LoginViewState extends State<LoginView> {
+  //atributos
+  final _emailField = TextEditingController();
+  final _senhaField = TextEditingController();
+  final _authController = FirebaseAuth.instance; //controller para manipulação do usuário no firebase auth
+  bool _senhaOculta = true;
 
- @override
- void dispose() {
- emailController.dispose();
- passwordController.dispose();
- super.dispose();
-}
+  //método
+  void _login() async {
+    try {
+      //solicitar a autenticação do usuário
+      await _authController.signInWithEmailAndPassword(
+        email: _emailField.text.trim(),
+        password: _senhaField.text,
+      );
+      //não precisa do Navigator, pois usaremso o StreamBuilder
+      // já faz o direcionamento automático para a tela de tarefas
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Falha ao Fazer Login $e")));
+    }
+  }
 
- @override
- Widget build(BuildContext context) {
- return Scaffold(
- backgroundColor: Color(0xFFF0E5EC),
- appBar: AppBar(
- backgroundColor: Color(0xFFD6338B),
- elevation: 0,
- toolbarHeight: 60,
-title: Row(
-mainAxisAlignment: MainAxisAlignment.end,
- children: [
- Container(
- width: 40,
-height: 40,
- color: Color(0xFFC4C4C4),
- ),
-],
- ),
- ),
- body: SingleChildScrollView(
- child: Column(
- mainAxisAlignment: MainAxisAlignment.center, // Centraliza o conteúdo verticalmente
- crossAxisAlignment: CrossAxisAlignment.center, // Centraliza o conteúdo horizontalmente
-children: [
- Padding(
- padding: const EdgeInsets.only(top: 16.0),
-child: Text(
-'1° Tela: Tela de login',
- style: TextStyle(
- color: Color(0xFFD6338B),
- fontSize: 16,
- fontWeight: FontWeight.bold,
- ),
- ),
-),
- SizedBox(height: 40),
- Text(
- 'login',
- style: TextStyle(
- color: Color(0xFFD6338B),
- fontSize: 48,
- fontWeight: FontWeight.bold,
- ),
- ),
- SizedBox(height: 20),
- Container(
- width: 150,
- height: 150,
- decoration: BoxDecoration(
-color: Color(0xFFC4C4C4),
-shape: BoxShape.circle,
-),
- ),
-SizedBox(height: 20),
-Text(
-'entre na sua conta para continuar',
-style: TextStyle(
- color: Color(0xFFD6338B),
-  fontSize: 14,
- ),
- ),
- SizedBox(height: 40),
- Container(
- width: MediaQuery.of(context).size.width * 0.85,
- padding: EdgeInsets.all(24),
- decoration: BoxDecoration(
- color: Colors.white,
- borderRadius: BorderRadius.circular(20),
- boxShadow: [
- BoxShadow(
- color: Colors.black.withOpacity(0.1),
- blurRadius: 10,
- offset: Offset(0, 5),
- ),
- ],
- ),
- child: Column(
- crossAxisAlignment: CrossAxisAlignment.start,
- children: [
- TextField(
- controller: emailController,
- decoration: InputDecoration(
- hintText: 'seu email:',
- fillColor: Color(0xFFC4C4C4),
- filled: true,
- border: OutlineInputBorder(
- borderRadius: BorderRadius.circular(10),
- borderSide: BorderSide.none,
- ),
- ),
- ),
- SizedBox(height: 20),
-TextField(
- controller: passwordController,
- obscureText: true,
- decoration: InputDecoration(
- hintText: 'sua senha:',
- fillColor: Color(0xFFC4C4C4),
- filled: true,
- border: OutlineInputBorder(
- borderRadius: BorderRadius.circular(10),
-borderSide: BorderSide.none,
-),
-),
- ),
- SizedBox(height: 20),
- Align(
- alignment: Alignment.centerRight,
- child: TextButton(
- onPressed: () {
- // ação de esqueceu a senha
- },
- child: Text(
- 'esqueceu a senha?',
- style: TextStyle(color: Color(0xFFD6338B)),
- ),
- ),
- ),
- SizedBox(height: 20),
- Center(
- child: SizedBox(
- width: double.infinity,
- child: ElevatedButton(
- style: ElevatedButton.styleFrom(
- backgroundColor: Color(0xFFD6338B),
- padding: EdgeInsets.symmetric(vertical: 16),
- shape: RoundedRectangleBorder(
- borderRadius: BorderRadius.circular(10),
- ),
- ),
- onPressed: () {
- 
- },
- child: Text(
- 'entrar',
- style: TextStyle(
- color: Colors.white,
- fontSize: 24,
- fontWeight: FontWeight.bold,
- ),
- ),
- ),
- ),
- ),
- ],
- ),
- ),
- ],
- ),
- ),
- );
- }
+  //build da Tela
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Login")),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _emailField,
+              decoration: InputDecoration(labelText: "Email"),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            TextField(
+              controller: _senhaField,
+              decoration: InputDecoration(
+                labelText: "Senha",
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _senhaOculta =
+                        !_senhaOculta; //inverte o valor da variável booleana
+                  }),
+                  icon: _senhaOculta
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
+                ),
+              ),
+              obscureText: _senhaOculta,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: _login, child: Text("Login")),
+            TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterView()),
+              ),
+              child: Text("Não tem uma conta? Registre-se"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
